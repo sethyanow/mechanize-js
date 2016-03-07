@@ -1,10 +1,12 @@
-var File = require('../lib/mechanize/file');
+'use strict';
+/*global describe, it, beforeEach, expect, fixture */
+const File = require('../lib/mechanize/file');
 
 describe('Mechanize/File', function () {
-  var response, body, file, userAgentVersion, userAgent;
+  let body, file, userAgentVersion, userAgent;
 
   beforeEach(function () {
-    var agent, uri, code, response;
+    let agent, uri, code, response;
     agent = {};
     uri = null;
     code = null;
@@ -19,7 +21,7 @@ describe('Mechanize/File', function () {
   });
 
   it("should exist", function () {
-    file.should.exist;
+    expect(file).not.toBeUndefined();
   });
 
 });

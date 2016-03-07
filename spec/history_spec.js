@@ -1,16 +1,17 @@
-var History = require('../lib/mechanize/history');
-
+'use strict';
+/*global describe, it, beforeEach, expect */
+const History = require('../lib/mechanize/history');
 
 describe('Mechanize/History', function () {
-  var history;
+  let history;
 
   beforeEach(function () {
     history = new History();
   });
 
   it("should exist", function () {
-    history.should.exist;
-    //history.should.eql(2);
+    expect(history).not.toBeUndefined();
+    // expect(history).toBe(2);
   });
 
 });

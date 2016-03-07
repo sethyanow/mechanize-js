@@ -1,8 +1,9 @@
-var Page = require('../lib/mechanize/page');
-
+'use strict';
+/*global describe, it, beforeEach, expect, fixture */
+const Page = require('../lib/mechanize/page');
 
 describe('Mechanize/Page', function () {
-  var response, body, page, userAgentVersion, userAgent, agent, uri, code;
+  let response, body, page, userAgentVersion, userAgent, agent, uri, code;
 
   beforeEach(function () {
     agent = {};
@@ -20,62 +21,58 @@ describe('Mechanize/Page', function () {
     agent.userAgent = userAgent;
   });
 
-  context("with no body", function () {
+  describe("with no body", function () {
     beforeEach(function () {
       page = new Page(null, {'content-type': 'text/html'}, null, null, agent);
     });
 
     it("should be created", function () {
-      page.should.exist;
+      expect(page).not.toBeUndefined();
     });
   });
 
-  context("with form", function () {
+  describe("with form", function () {
     beforeEach(function () {
       body = fixture('login.html');
       page = new Page(uri, response, body, code, agent);
     });
 
-    it("should exist", function () {
-      page.should.exist;
-    });
-
     it("should return form", function () {
-      var form = page.form('MAINFORM');
-      form.should.exist;
+      let form = page.form('MAINFORM');
+      expect(form).not.toBeUndefined();
     });
 
     it("should return user agent", function () {
-      page.userAgent.should.eql(userAgent);
+      expect(page.userAgent).toBe(userAgent);
     });
 
     it("should have a title", function () {
-      page.title.should.eql("Welcome");
+      expect(page.title).toBe("Welcome");
     });
 
     it("should have responseHeaderCharset", function () {
-      page.responseHeaderCharset.should.eql(["ISO-8859-1"]);
+      expect(page.responseHeaderCharset).toBe(["ISO-8859-1"]);
     });
   });
 
-  context("with links", function () {
+  describe("with links", function () {
     beforeEach(function () {
       body = fixture('links.html');
       page = new Page(uri, response, body, code, agent);
     });
 
     it("should return links", function () {
-      page.links().length.should.eql(11);
+      expect(page.links().length).toBe(11);
     });
 
     it("should have serach", function () {
-      page.search('//a').length.should.eql(11);
+      expect(page.search('//a').length).toBe(11);
     });
   });
 
-  context("with null parsed body", function () {
+  describe("with null parsed body", function () {
     beforeEach(function () {
-      var uri = 'https://login.yahoo.com/config/login?',
+      const uri = 'https://login.yahoo.com/config/login?',
         response = {
           headers: {
             location: 'https://login.yahoo.com/config/verify?.done=' +
@@ -92,11 +89,11 @@ describe('Mechanize/Page', function () {
     });
 
     it("should have serach", function () {
-      page.search('//a').length.should.eql(0);
+      expect(page.search('//a').length).toBe(0);
     });
 
     it("should have statusCode", function () {
-      page.statusCode().should.eql(302);
+      expect(page.statusCode()).toBe(302);
     });
   });
 });

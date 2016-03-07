@@ -1,16 +1,16 @@
-var formModule = require('../lib/mechanize/form');
-var Page = require('../lib/mechanize/page');
-var should = require('should');
+'use strict';
+/*global describe, it, beforeEach, expect, fixture */
+const Page = require('../lib/mechanize/page');
 
 describe("Mechanize/Form", function () {
-  var form, formSubmitted;
+  let form, formSubmitted;
 
-  context("with no action attribute", function () {
+  describe("with no action attribute", function () {
     beforeEach(function () {
-      var agent, url, response, body, code, page;
+      let agent, url, response, body, code, page;
       agent = {
         submit: function (form, button, headers, requestOptions, cb) {
-          var page = {};
+          let page = {};
           formSubmitted = true;
           cb(null, page);
         }
@@ -26,20 +26,20 @@ describe("Mechanize/Form", function () {
     });
 
     it("should have fields", function () {
-      form.fields.length.should.equal(3);
+      expect(form.fields.length).toBe(3);
     });
 
     it("should have action", function () {
-      form.action.should.equal('form.html');
+      expect(form.action).toBe('form.html');
     });
   });
 
-  context("with action attribute", function () {
+  describe("with action attribute", function () {
     beforeEach(function () {
-      var agent, url, response, body, code, page;
+      let agent, url, response, body, code, page;
       agent = {
         submit: function (form, button, headers, requestOptions, cb) {
-          var page = {};
+          let page = {};
           formSubmitted = true;
           cb(null, page);
         }
@@ -55,84 +55,83 @@ describe("Mechanize/Form", function () {
     });
 
     it("should have fields", function () {
-      form.fields.length.should.equal(4);
+      expect(form.fields.length).toBe(4);
     });
 
     it("should have buttons", function () {
-      form.buttons.length.should.equal(1);
+      expect(form.buttons.length).toBe(1);
     });
 
     it("should have field", function () {
-      var field = form.field('street');
-      field.should.exist;
-      field.value.should.equal('Main');
+      const field = form.field('street');
+      expect(field.value).toBe('Main');
     });
 
     it("should set field value", function () {
       form.setFieldValue('__EVENTTARGET', 'new value');
-      form.field('__EVENTTARGET').value.should.equal("new value");
+      expect(form.field('__EVENTTARGET').value).toBe("new value");
     });
 
-    context("multipart/form-data encoded", function () {
+    describe("multipart/form-data encoded", function () {
       it("should have requestData", function () {
-        var requestData = fixture('multipart_body.txt');
+        const requestData = fixture('multipart_body.txt');
         form.enctype = "multipart/form-data";
-        form.requestData().should.equal(requestData);
+        expect(form.requestData()).toBe(requestData);
       });
     });
 
     it("should have requestData", function () {
-      var requestData = fixture('www_form_urlencoded.txt');
-      form.requestData().should.equal(requestData);
+      const requestData = fixture('www_form_urlencoded.txt');
+      expect(form.requestData()).toBe(requestData);
     });
 
     it("should submit form", function () {
-      form.submit(function (err, page) {
-        should.not.exist(err);
-        formSubmitted.should.equal(true);
+      form.submit(function (err) {
+        expect(err).toBe(null);
+        expect(formSubmitted).toBe(true);
       });
     });
 
     it("should add button to query", function () {
-      var button = {name: 'button'};
+      const button = {name: 'button'};
       form.addButtonToQuery(button);
-      form.clickedButtons.should.eql([button]);
+      expect(form.clickedButtons).toBe([button]);
     });
 
     it("should have action", function () {
-      form.action.should.equal('Login.aspx');
+      expect(form.action).toBe('Login.aspx');
     });
 
     it("should have buildQuery", function () {
-      form.buildQuery().should.eql([ [ 'userID', '' ], [ 'name', '' ],
+      expect(form.buildQuery()).toBe([ [ 'userID', '' ], [ 'name', '' ],
                                      [ 'street', 'Main' ] ]);
     });
 
     it("should have requestData", function () {
-      form.requestData().should.eql("userID=&name=&street=Main");
+      expect(form.requestData()).toBe("userID=&name=&street=Main");
     });
 
-    context("with deleted field", function () {
+    describe("with deleted field", function () {
       beforeEach(function () {
         form.deleteField('name');
       });
 
       it("should not include field in buildQuery", function () {
-        form.buildQuery().should.eql([ [ 'userID', '' ],
+        expect(form.buildQuery()).toBe([ [ 'userID', '' ],
                                        [ 'street', 'Main' ] ]);
       });
 
     });
 
-    context("with field value that need to be quoted", function () {
-      var encoded;
+    describe("with field value that need to be quoted", function () {
+      let encoded;
       beforeEach(function () {
         encoded = 'field2=a%3D1%26b%3Dslash%2Fsp+%28paren%29vert%7Csm%3Bcm%2C';
         form.setFieldValue('field2', 'a=1&b=slash/sp (paren)vert|sm;cm,');
       });
 
       it("should encode", function () {
-        form.requestData().should.eql("userID=&name=&street=Main&" + encoded);
+        expect(form.requestData()).toBe("userID=&name=&street=Main&" + encoded);
       });
 
     });

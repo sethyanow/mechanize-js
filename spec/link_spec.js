@@ -1,12 +1,13 @@
-var Link = require('../lib/mechanize/page/link');
-var Page = require('../lib/mechanize/page');
-
+'use strict';
+/*global describe, it, beforeEach, expect */
+const Link = require('../lib/mechanize/page/link'),
+  Page = require('../lib/mechanize/page');
 
 describe('Mechanize/Page/Link', function () {
-  var link, href, nodeID, page, node;
+  let link, href, nodeID, page, node;
 
   beforeEach(function () {
-    var agent, url, response, body, code;
+    let agent, url, response, body, code;
     agent = {};
     url = null;
     response = {};
@@ -20,7 +21,7 @@ describe('Mechanize/Page/Link', function () {
 
   });
 
-  context("text link", function () {
+  describe("text link", function () {
     beforeEach(function () {
       node = page.at("//a[1]");
       href = 'http://example.com/first';
@@ -28,24 +29,20 @@ describe('Mechanize/Page/Link', function () {
       link = new Link(page, node);
     });
 
-    it("should exist", function () {
-      link.should.exist;
-    });
-
     it("should have href", function () {
-      link.href.should.eql(href);
+      expect(link.href).toeql(href);
     });
 
     it("should have domID", function () {
-      link.domID.should.eql(nodeID);
+      expect(link.domID).toeql(nodeID);
     });
 
     it("should have text", function () {
-      link.text.should.eql('Example');
+      expect(link.text).toeql('Example');
     });
   });
 
-  context("image link", function () {
+  describe("image link", function () {
     beforeEach(function () {
       node = page.at("//a[2]");
       href = 'http://example.com/second';
@@ -53,20 +50,16 @@ describe('Mechanize/Page/Link', function () {
       link = new Link(page, node);
     });
 
-    it("should exist", function () {
-      link.should.exist;
-    });
-
     it("should have href", function () {
-      link.href.should.eql(href);
+      expect(link.href).toeql(href);
     });
 
     it("should have domID", function () {
-      link.domID.should.eql(nodeID);
+      expect(link.domID).toeql(nodeID);
     });
 
     it("should have text", function () {
-      link.text.should.eql('picture');
+      expect(link.text).toeql('picture');
     });
   });
 });

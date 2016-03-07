@@ -1,15 +1,15 @@
-var Page = require('../lib/mechanize/page.js');
-var should = require('should');
-
+'use strict';
+/*global describe, it, beforeEach, expect, fixture */
+const Page = require('../lib/mechanize/page.js');
 
 describe("Mechanize/Form/Text", function () {
-  var text, form;
+  let text, form;
 
   beforeEach(function () {
-    var agent, url, response, body, code, page;
+    let agent, url, response, body, code, page;
     agent = {
       submit: function (form, button, headers, requestOptions, fn) {
-        var page = {};
+        let page = {};
         fn(null, page);
       }
     };
@@ -23,23 +23,23 @@ describe("Mechanize/Form/Text", function () {
 
   });
 
-  context("text field", function () {
+  describe("text field", function () {
     beforeEach(function () {
       text = form.field("text");
     });
 
     it("should not be disabled", function () {
-      text.disabled.should.eql(false);
+      expect(text.disabled).toeql(false);
     });
   });
 
-  context("disabled text field", function () {
+  describe("disabled text field", function () {
     beforeEach(function () {
       text = form.field("textDisabled");
     });
 
     it("should be disabled", function () {
-      text.disabled.should.eql(true);
+      expect(text.disabled).toeql(true);
     });
   });
 });

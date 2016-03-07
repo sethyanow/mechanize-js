@@ -1,4 +1,5 @@
-var Mechanize = require('../lib/mechanize');
+'use strict';
+const Mechanize = require('../lib/mechanize');
 
 Mechanize.newAgent().
   get({uri: 'http://www.google.com'}, function (err, page) {

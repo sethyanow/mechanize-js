@@ -1,18 +1,19 @@
-var mechanize = require('../lib/mechanize');
+'use strict';
+/*global describe, it, beforeEach, expect */
+const mechanize = require('../lib/mechanize');
 
 describe('Mechanize', function () {
-  var agent;
+  let agent;
 
   beforeEach(function () {
     agent = mechanize.newAgent();
   });
 
-  it('shows asynchronous test', function () {
+  it('shows asynchronous test', function (done) {
     setTimeout(function () {
-      'second'.should.equal('second');
-      asyncSpecDone();
+      expect('second').toBe('second');
+      done();
     }, 1);
-    'first'.should.equal('first');
-    asyncSpecWait();
+    expect('first').toBe('first');
   });
 });

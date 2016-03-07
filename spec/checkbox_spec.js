@@ -1,15 +1,15 @@
-var Page = require('../lib/mechanize/page.js');
-var should = require('should');
-
+'use strict';
+/*global describe, it, beforeEach, expect, fixture */
+const Page = require('../lib/mechanize/page.js');
 
 describe("Mechanize/Form/CheckBox", function () {
-  var checkBox, form;
+  let checkBox, form;
 
   beforeEach(function () {
-    var agent, url, response, body, code, page;
+    let agent, url, response, body, code, page;
     agent = {
       submit: function (form, button, headers, requestOptions, cb) {
-        var page = {};
+        let page = {};
         cb(null, page);
       }
     };
@@ -23,23 +23,23 @@ describe("Mechanize/Form/CheckBox", function () {
 
   });
 
-  context("checked check box", function () {
+  describe("checked check box", function () {
     beforeEach(function () {
       checkBox = form.checkBox("checkBoxChecked");
     });
 
     it("should be checked", function () {
-      checkBox.checked.should.eql(true);
+      expect(checkBox.checked).toBe(true);
     });
   });
 
-  context("unchecked check box", function () {
+  describe("unchecked check box", function () {
     beforeEach(function () {
       checkBox = form.checkBox("checkBoxUnchecked");
     });
 
     it("should not be checked", function () {
-      checkBox.checked.should.eql(false);
+      expect(checkBox.checked).toBe(false);
     });
   });
 });
